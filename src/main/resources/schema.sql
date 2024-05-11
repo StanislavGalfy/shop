@@ -1,0 +1,28 @@
+DROP TABLE IF EXISTS product;
+DROP TABLE IF EXISTS product_order_;
+DROP TABLE IF EXISTS order_;
+
+CREATE TABLE order_ (
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  state TINYINT NOT NULL,
+  created TIMESTAMP NOT NULL
+);
+
+CREATE INDEX order_state_created_idx ON order_(state, created);
+
+CREATE TABLE product (
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(250) UNIQUE NOT NULL,
+  price NUMERIC(10, 2) NOT NULL,
+  quantity INTEGER NOT NULL
+);
+
+CREATE TABLE order_product (
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  order_id BIGINT,
+  product_id BIGINT,
+  name VARCHAR(250) UNIQUE NOT NULL,
+  price NUMERIC(10, 2) NOT NULL,
+  quantity INTEGER NOT NULL,
+  FOREIGN KEY (order_id) REFERENCES order_(id)
+);
